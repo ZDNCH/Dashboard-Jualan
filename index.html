@@ -4,25 +4,46 @@
   tenang kamu bisa sewa dan beli 
   jasa dashboardnya di +6281319865384/Bagas
 -->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/awanku.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <title>Dashboard - Awanku</title>
+    <style>
+      /* styling video biar kayak ikon */
+      .video-icon {
+        width: 80px;       /* ukuran ikon */
+        height: 80px;
+        border-radius: 50%; /* bulat */
+        overflow: hidden;
+      }
+      .video-icon video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* nge-fill kotak/bulat */
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Video ikon -->
+    <div class="video-icon">
+      <video src="awanku.mp4" autoplay loop muted></video>
+    </div>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
+
 
 <script>
 document.addEventListener("keydown", function (event) {
   if (event.ctrlKey && event.key === "u") {
     event.preventDefault();
-    window.location.href = "https://www.instagram.com/13bagas.exv/";
+    window.location.href = "https://www.instagram.com/13bagas.exv/"; // ganti username_lu jadi IG lu
   }
 });
 </script>
