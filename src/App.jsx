@@ -514,6 +514,8 @@ function RentalForm({ onSubmit }) {
   const [durasiDays, setDurasiDays] = useState(7);
   const [harga, setHarga] = useState("");
   const [metode, setMetode] = useState("Tunai");
+   const [tanggalMulai, setTanggalMulai] = useState("");
+  const [tanggalAkhir, setTanggalAkhir] = useState("");
 
   function submit(e) {
     e.preventDefault();
@@ -534,11 +536,25 @@ function RentalForm({ onSubmit }) {
         <Input label="Harga Sewa" value={harga} onChange={setHarga} type="number" min="0" />
         <SelectSimple label="Metode" value={metode} onChange={setMetode} options={["Tunai","Transfer"]} />
       </div>
-      <div className="flex gap-3 flex-wrap">
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">Simpan</button>
-        <button type="reset" onClick={() => { setNama(""); setJenis(""); setGmail(""); setDurasiDays(7); setHarga(""); setMetode("Tunai"); }} className="px-4 py-2 bg-gray-100 rounded-xl hover:bg-gray-200">Reset</button>
-      </div>
-    </form>
+      {/* Tambahan tanggal opsional */}
+  <div className="grid md:grid-cols-2 gap-4">
+    <Input label="Tanggal Mulai (opsional)" value={tanggalMulai} onChange={setTanggalMulai} type="date" />
+    <Input label="Tanggal Akhir (opsional)" value={tanggalAkhir} onChange={setTanggalAkhir} type="date" />
+  </div>
+       <div className="flex gap-3 flex-wrap">
+    <button className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">Simpan</button>
+    <button
+      type="reset"
+      onClick={() => {
+        setNama(""); setJenis(""); setGmail(""); setDurasiDays(7);
+        setHarga(""); setMetode("Tunai"); setTanggalMulai(""); setTanggalAkhir("");
+      }}
+      className="px-4 py-2 bg-gray-100 rounded-xl hover:bg-gray-200"
+    >
+      Reset
+    </button>
+  </div>
+</form>
   );
 }
 
