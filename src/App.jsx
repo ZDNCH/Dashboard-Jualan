@@ -267,7 +267,8 @@ export default function App() {
       )}
 
       {/* MAIN */}
-      <main className={`flex-1 p-4 sm:p-6 overflow-y-auto w-full ${isSidebarOpen ? "pointer-events-none sm:pointer-events-auto" : ""} ${"sm:ml-0"} ${"sm:pt-0"} ${"pt-14"}`}>
+      <main className={`flex-1 p-4 sm:p-6 overflow-y-auto w-full ${isSidebarOpen ? "pointer-events-none sm:pointer-events-auto" : ""} pt-20 sm:pt-6`}>
+
         {page === "dashboard" && (
           <div className="space-y-6 max-w-[1400px] mx-auto">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
