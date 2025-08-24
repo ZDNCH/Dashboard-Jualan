@@ -423,7 +423,7 @@ function TentangAwanku({ isLoggedIn, katalog, onAddProduk }) {
   </p>
 
   <p className="text-sm text-gray-700 text-justify mb-6">
-    Gak cuma akun premium, kita juga nyediain <strong>jasa bikin template</strong>—mulai dari poster, presentasi (PPT), sampai desain siap pakai. Buat yang pengen tampil beda, ada juga <strong>template PPT 3D lengkap sama animasinya</strong>.
+    Gak cuma akun premium, kita juga nyediain <strong>jasa bikin template</strong> mulai dari poster, presentasi (PPT), sampai desain siap pakai. Buat yang pengen tampil beda, ada juga <strong>template PPT 3D lengkap sama animasinya</strong>.
   </p>
 
   <p className="text-sm text-gray-700 text-justify mb-6">
