@@ -342,13 +342,12 @@ export default function App() {
         )}
 
         {page === "info" && (
-          <div className="space-y-4 max-w-3xl mx-auto">
-            <h1 className="text-xl sm:text-2xl font-bold">Informasi & Chat</h1>
-            <Card>
-              <InfoBoard infos={infos} onPost={addInfo} onReply={addChat} />
-            </Card>
-          </div>
-        )}
+  <TentangAwanku 
+    isLoggedIn={isLoggedIn} 
+    katalog={infos.katalog || []} 
+    onAddProduk={(p) => setInfos((prev) => ({ ...prev, katalog: [...(prev.katalog||[]), p] }))} 
+  />
+)}
 
         {page === "admin" && isLoggedIn && (
           <div className="space-y-4 max-w-6xl mx-auto">
@@ -388,6 +387,126 @@ export default function App() {
 }
 
 // ===================== PAGES & WIDGETS =====================
+
+// ===================== TENTANG AWANKU PAGE =====================
+function TentangAwanku({ isLoggedIn, katalog, onAddProduk }) {
+  const [newProduk, setNewProduk] = useState({ nama: "", harga: "" });
+
+  function submitProduk(e) {
+    e.preventDefault();
+    if (!newProduk.nama || !newProduk.harga) return alert("Isi nama & harga");
+    onAddProduk({ ...newProduk, id: Date.now() });
+    setNewProduk({ nama: "", harga: "" });
+  }
+
+  return (
+    <div className="space-y-6 max-w-5xl mx-auto">
+<video
+  src={awankuVideo}
+  className="w-full max-w-md mx-auto rounded-2xl object-cover h-48 sm:h-64 lg:h-80"
+  autoPlay
+  loop
+  muted
+/>
+
+
+      {/* Section Deskripsi Awanku */}
+<section className="max-w-4xl mx-auto p-6">
+  {/* Judul */}
+  <h2 className="text-3xl font-bold text-black-700 mb-4 text-center">
+    AWANKU
+  </h2>
+
+  {/* Deskripsi */}
+  <p className="text-sm text-gray-700 text-justify mb-6">
+    Tempatnya buat kamu yang butuh semua layanan digital, Kita jual akun premium <strong>Netflix, CapCut, YouTube Music, Spotify</strong>, plus layanan digital lain sesuai kebutuhan kamu. Semua 100% original, jadi aman dan terpercaya.
+  </p>
+
+  <p className="text-sm text-gray-700 text-justify mb-6">
+    Gak cuma akun premium, kita juga nyediain <strong>jasa bikin template</strong>—mulai dari poster, presentasi (PPT), sampai desain siap pakai. Buat yang pengen tampil beda, ada juga <strong>template PPT 3D lengkap sama animasinya</strong>.
+  </p>
+
+  <p className="text-sm text-gray-700 text-justify mb-6">
+    Buat yang mau belajar, kita buka juga <strong>kelas online Bot WhatsApp</strong> dari nol sampai bisa jalan sendiri. Semua dibuat supaya gampang dipahami, gak ribet, dan bisa langsung dipraktikkin.
+  </p>
+
+  <p className="text-sm text-gray-700 text-justify mb-6">
+    Sistem pembelian? Gampang banget:
+    <ul className="list-disc list-inside mt-2">
+      <li><strong>Akun premium</strong> via WhatsApp, langsung chat, cepat dan jelas.</li>
+      <li><strong>Jasa Template & Kelas Online</strong> via website, pakai sistem pembayaran otomatis. Produk atau akses langsung dikirim setelah bayar.</li>
+    </ul>
+  </p>
+
+  <p className="text-sm text-gray-700 text-justify mb-6">
+    Jadi, kalau mau layanan digital yang <strong>cepat, aman, dan kualitas oke</strong>, AWANKU jawabannya.
+  </p>
+
+  {/* Highlight / Feature */}
+{/* Highlight / Feature */}
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+  <a
+    href="/proposal"
+    className="bg-blue-200/90 hover:bg-blue-500/50 transition p-4 rounded-xl text-center font-medium text-white"
+  >
+    Proposal
+  </a>
+
+  <a
+    href="/kelas-template"
+    className="bg-green-500/30 hover:bg-green-500/50 transition p-4 rounded-xl text-center font-medium text-white"
+  >
+    Kelas & Jasa Template
+  </a>
+</div>
+
+</section>
+
+
+      {/* Katalog Jualan */}
+      {/* <div>
+        <h2 className="text-lg sm:text-xl font-semibold mb-2">Katalog Produk</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {katalog.length > 0 ? (
+            katalog.map((p) => (
+              <div key={p.id} className="bg-white p-4 rounded-2xl shadow-sm text-center">
+                <div className="font-medium">{p.nama}</div>
+                <div className="text-gray-500 text-sm">{`Rp ${Number(p.harga).toLocaleString("id-ID")}`}</div>
+              </div>
+            ))
+          ) : (
+            <div className="text-gray-400 col-span-full text-center">Belum ada produk.</div>
+          )}
+        </div> */}
+
+        {/* Admin Input Produk */}
+        {/* {isLoggedIn && (
+          <Card className="mt-4">
+            <h3 className="font-semibold mb-2">Tambah Produk Baru</h3>
+            <form onSubmit={submitProduk} className="grid gap-2 sm:grid-cols-3">
+              <input 
+                type="text" placeholder="Nama Produk" 
+                value={newProduk.nama} 
+                onChange={(e)=>setNewProduk({...newProduk, nama:e.target.value})} 
+                className="border rounded-xl px-3 py-2 text-sm"
+              />
+              <input 
+                type="number" placeholder="Harga" 
+                value={newProduk.harga} 
+                onChange={(e)=>setNewProduk({...newProduk, harga:e.target.value})} 
+                className="border rounded-xl px-3 py-2 text-sm"
+              />
+              <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-indigo-700">Tambah</button>
+            </form>
+          </Card>
+        )} */}
+      </div>
+    // </div>
+  );
+}
+
+// ===================== RENTAL PAGE =====================
+
 function RentalForm({ onSubmit }) {
   const [nama, setNama] = useState("");
   const [jenis, setJenis] = useState("");
