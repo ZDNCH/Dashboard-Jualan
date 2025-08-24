@@ -187,7 +187,7 @@ export default function App() {
   }
 
   return (
-    <div className="h-screen w-full bg-indigo-50/60 flex relative">
+    <div className="h-screen w-full bg-blue-50/60 flex relative">
       {/* MOBILE TOPBAR */}
       <div className="sm:hidden fixed top-0 left-0 right-0 z-30 bg-white border-b shadow-sm px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -222,10 +222,10 @@ export default function App() {
 
         <div className="mt-2 flex flex-col gap-2">
           <SidebarLink id="dashboard" label="Dashboard" icon="☁" />
-          <SidebarLink id="countdown" label="Countdowns" icon="" />
+          <SidebarLink id="countdown" label="Costumer" icon="" />
           <SidebarLink id="finance" label="Keuangan" icon="" adminOnly />
           <SidebarLink id="input" label="Input Data" icon="" adminOnly />
-          <SidebarLink id="info" label="Informasi" icon=""/>
+          <SidebarLink id="info" label="Tentang" icon=""/>
           <SidebarLink id="admin" label="Admin" icon="" adminOnly />
         </div>
 
@@ -259,20 +259,20 @@ export default function App() {
         {page === "dashboard" && (
           <div className="space-y-6 max-w-[1400px] mx-auto">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-800">Business Dashboard</h1>
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-800">Dashboard</h1>
               {/* perbaikan: tampilkan tanggal beneran */}
               <div className="text-xs sm:text-sm text-gray-500">{new Date().toLocaleString()}</div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <Stat label="Total Omset" value={fmtCurrency(totals.totalOmset)} sub="Akumulasi semua transaksi" />
-              <Stat label="Tunai" value={fmtCurrency(totals.tunai)} sub="Metode tunai" />
-              <Stat label="Transfer" value={fmtCurrency(totals.transfer)} sub="Metode transfer" />
-              <Stat label="Aktif Berjalan" value={`${totals.active} rental`} sub="Belum habis masa durasi" />
+              <Stat label="Total Omset" value={fmtCurrency(totals.totalOmset)} sub="" />
+              <Stat label="Tunai" value={fmtCurrency(totals.tunai)} sub="" />
+              <Stat label="Transfer" value={fmtCurrency(totals.transfer)} sub="" />
+              <Stat label="Aktif Berjalan" value={`${totals.active}`} sub="" />
             </div>
 
             <Card>
               <div className="flex items-center justify-between mb-4">
-                <div className="text-base sm:text-lg font-semibold">Recent Rentals</div>
+                <div className="text-base sm:text-lg font-semibold">Data Costumer</div>
               </div>
               <div className="overflow-x-auto">
                 <table className="min-w-full text-sm">
@@ -299,7 +299,7 @@ export default function App() {
                     ))}
                     {rentals.length === 0 && (
                       <tr>
-                        <td className="py-3 text-gray-400 text-sm" colSpan={6}>Belum ada data. Masuk ke halaman Input Data.</td>
+                        <td className="py-3 text-gray-400 text-sm" colSpan={6}>Belum ada Data Costumer :c</td>
                       </tr>
                     )}
                   </tbody>
@@ -320,7 +320,7 @@ export default function App() {
 
         {page === "countdown" && (
           <div className="space-y-4 max-w-5xl mx-auto">
-            <h1 className="text-xl sm:text-2xl font-bold">Countdowns</h1>
+            <h1 className="text-xl sm:text-2xl font-bold">Waktu Durasi Costumer</h1>
             <Card>
               <CountdownTable rentals={rentals} onChangeStatus={(id, s) => updateRental(id, { status: s })} isLoggedIn={isLoggedIn} />
             </Card>
@@ -378,7 +378,7 @@ export default function App() {
           <div className="text-center mt-16 sm:mt-20">
             <h1 className="text-xl sm:text-2xl font-bold">Akses Ditolak</h1>
             <p className="text-gray-600 mt-2 text-sm sm:text-base">Kamu harus login untuk mengakses halaman ini ya</p>
-            <button onClick={() => setPage('login')} className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-indigo-700">Login</button>
+            <button onClick={() => setPage('login')} className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">Login</button>
           </div>
         )} */}
       </main>
@@ -392,15 +392,15 @@ export default function App() {
 function TentangAwanku({ isLoggedIn, katalog, onAddProduk }) {
   const [newProduk, setNewProduk] = useState({ nama: "", harga: "" });
 
-  function submitProduk(e) {
-    e.preventDefault();
-    if (!newProduk.nama || !newProduk.harga) return alert("Isi nama & harga");
-    onAddProduk({ ...newProduk, id: Date.now() });
-    setNewProduk({ nama: "", harga: "" });
-  }
+  // function submitProduk(e) {
+  //   e.preventDefault();
+  //   if (!newProduk.nama || !newProduk.harga) return alert("Isi nama & harga");
+  //   onAddProduk({ ...newProduk, id: Date.now() });
+  //   setNewProduk({ nama: "", harga: "" });
+  // }
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto">
+    <div className="bg-white min-h-screen py-10 px-4 sm:px-6 lg:px-8 space-y-10">
 <video
   src={awankuVideo}
   className="w-full max-w-md mx-auto rounded-2xl object-cover h-48 sm:h-64 lg:h-80"
@@ -446,15 +446,15 @@ function TentangAwanku({ isLoggedIn, katalog, onAddProduk }) {
 {/* Highlight / Feature */}
 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
   <a
-    href="/proposal"
+    href="https://drive.google.com/file/d/1vOCQTF01H8t9Lqf2SfvFDujzKMPPxtgx/view?usp=drivesdk"
     className="bg-blue-200/90 hover:bg-blue-500/50 transition p-4 rounded-xl text-center font-medium text-white"
   >
     Proposal
   </a>
 
   <a
-    href="/kelas-template"
-    className="bg-green-500/30 hover:bg-green-500/50 transition p-4 rounded-xl text-center font-medium text-white"
+    href="https://lynk.id/Daycohere"
+    className="bg-green-200/90 hover:bg-green-500/50 transition p-4 rounded-xl text-center font-medium text-white"
   >
     Kelas & Jasa Template
   </a>
@@ -496,7 +496,7 @@ function TentangAwanku({ isLoggedIn, katalog, onAddProduk }) {
                 onChange={(e)=>setNewProduk({...newProduk, harga:e.target.value})} 
                 className="border rounded-xl px-3 py-2 text-sm"
               />
-              <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-indigo-700">Tambah</button>
+              <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">Tambah</button>
             </form>
           </Card>
         )} */}
@@ -535,7 +535,7 @@ function RentalForm({ onSubmit }) {
         <SelectSimple label="Metode" value={metode} onChange={setMetode} options={["Tunai","Transfer"]} />
       </div>
       <div className="flex gap-3 flex-wrap">
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-indigo-700">Simpan</button>
+        <button className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">Simpan</button>
         <button type="reset" onClick={() => { setNama(""); setJenis(""); setGmail(""); setDurasiDays(7); setHarga(""); setMetode("Tunai"); }} className="px-4 py-2 bg-gray-100 rounded-xl hover:bg-gray-200">Reset</button>
       </div>
     </form>
@@ -669,7 +669,7 @@ function LoginForm({ onLogin }) {
     <div className="grid gap-4">
       <Input label="Username" value={user} onChange={setUser} />
       <Input label="Password" type="password" value={pass} onChange={setPass} />
-      <button onClick={() => onLogin(user, pass)} className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-indigo-700">Login</button>
+      <button onClick={() => onLogin(user, pass)} className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">Login</button>
     </div>
   );
 }
