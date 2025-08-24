@@ -178,7 +178,7 @@ export default function App() {
     return (
       <button
         onClick={() => { setPage(id); setIsSidebarOpen(false); }}
-        className={`flex items-center gap-3 w-full text-left px-4 py-2 rounded-xl transition ${active ? "bg-indigo-600 text-white" : "text-gray-700 hover:bg-gray-100"}`}
+        className={`flex items-center gap-3 w-full text-left px-4 py-2 rounded-xl transition ${active ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-100"}`}
       >
         <span className="text-lg">{icon}</span>
         <span className="font-medium text-sm sm:text-base">{label}</span>
@@ -209,37 +209,24 @@ export default function App() {
         className={`w-64 sm:w-72 bg-white h-full shadow-xl p-5 flex-col gap-4 z-40
         ${isSidebarOpen ? "fixed inset-y-0 left-0 flex" : "hidden sm:flex"}`}
       >
-        <div className="flex items-center gap-3 mb-2">
-          <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl overflow-hidden">
-            <video
-              src={awankuVideo}
-              autoPlay
-              loop
-              muted
-              className="h-full w-full object-cover"
-            />
-          </div>
+<div className="flex items-center justify-center mb-2">
+  <video
+    src={awankuVideo}
+    autoPlay
+    loop
+    muted
+    className="h-20 w-20 sm:h-28 sm:w-28 object-cover rounded-xl"
+  />
+</div>
 
-          <div>
-            <div className="text-sm sm:text-lg font-bold text-indigo-700">Awanku Digital</div>
-            <a
-              href="https://www.instagram.com/13bagas.exv"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[11px] sm:text-xs text-gray-400 hover:text-indigo-500 block -mt-0.5"
-            >
-              @13bagas.exv
-            </a>
-          </div>
-        </div>
 
         <div className="mt-2 flex flex-col gap-2">
           <SidebarLink id="dashboard" label="Dashboard" icon="☁" />
-          <SidebarLink id="countdown" label="Countdowns" icon="⏳" />
-          <SidebarLink id="finance" label="Keuangan" icon="💰" />
-          <SidebarLink id="input" label="Input Data" icon="✍️" adminOnly />
-          <SidebarLink id="info" label="Informasi" icon="💬" adminOnly />
-          <SidebarLink id="admin" label="Admin" icon="🛠️" adminOnly />
+          <SidebarLink id="countdown" label="Countdowns" icon="" />
+          <SidebarLink id="finance" label="Keuangan" icon="" adminOnly />
+          <SidebarLink id="input" label="Input Data" icon="" adminOnly />
+          <SidebarLink id="info" label="Informasi" icon=""/>
+          <SidebarLink id="admin" label="Admin" icon="" adminOnly />
         </div>
 
         <div className="mt-auto">
@@ -250,11 +237,11 @@ export default function App() {
             </button>
           ) : (
             <button onClick={() => { setPage('login'); setIsSidebarOpen(false); }} className="w-full text-left px-4 py-2 rounded-xl text-gray-700 hover:bg-gray-100 flex items-center gap-3">
-              <span className="text-lg">🔑</span>
+              <span className="text-lg"></span>
               <span className="font-medium text-sm sm:text-base">Login</span>
             </button>
           )}
-          <div className="text-[11px] sm:text-xs text-gray-400 mt-2">v2 • LocalStorage</div>
+          {/* <div className="text-[11px] sm:text-xs text-gray-400 mt-2"></div> */}
         </div>
       </aside>
 
@@ -354,7 +341,7 @@ export default function App() {
           </div>
         )}
 
-        {page === "info" && isLoggedIn && (
+        {page === "info" && (
           <div className="space-y-4 max-w-3xl mx-auto">
             <h1 className="text-xl sm:text-2xl font-bold">Informasi & Chat</h1>
             <Card>
@@ -388,13 +375,13 @@ export default function App() {
           </div>
         )}
 
-        {(page === 'input' || page === 'info' || page === 'admin') && !isLoggedIn && (
+        {/* {(page === 'input' || page === 'info' || page === 'admin') && !isLoggedIn && (
           <div className="text-center mt-16 sm:mt-20">
             <h1 className="text-xl sm:text-2xl font-bold">Akses Ditolak</h1>
-            <p className="text-gray-600 mt-2 text-sm sm:text-base">Anda harus login untuk mengakses halaman ini.</p>
-            <button onClick={() => setPage('login')} className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700">Login</button>
+            <p className="text-gray-600 mt-2 text-sm sm:text-base">Kamu harus login untuk mengakses halaman ini ya</p>
+            <button onClick={() => setPage('login')} className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-indigo-700">Login</button>
           </div>
-        )}
+        )} */}
       </main>
     </div>
   );
@@ -429,7 +416,7 @@ function RentalForm({ onSubmit }) {
         <SelectSimple label="Metode" value={metode} onChange={setMetode} options={["Tunai","Transfer"]} />
       </div>
       <div className="flex gap-3 flex-wrap">
-        <button className="px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700">Simpan</button>
+        <button className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-indigo-700">Simpan</button>
         <button type="reset" onClick={() => { setNama(""); setJenis(""); setGmail(""); setDurasiDays(7); setHarga(""); setMetode("Tunai"); }} className="px-4 py-2 bg-gray-100 rounded-xl hover:bg-gray-200">Reset</button>
       </div>
     </form>
@@ -528,7 +515,7 @@ function InfoBoard({ infos, onPost, onReply }) {
     <div className="space-y-4">
       <div className="flex gap-2 flex-col sm:flex-row">
         <input className="flex-1 border rounded-xl px-3 py-2 text-sm" placeholder="Tulis info untuk user..." value={text} onChange={(e)=>setText(e.target.value)} />
-        <button onClick={()=>{ onPost(text); setText(""); }} className="px-4 py-2 bg-indigo-600 text-white rounded-xl">Kirim</button>
+        <button onClick={()=>{ onPost(text); setText(""); }} className="px-4 py-2 bg-blue-600 text-white rounded-xl">Kirim</button>
       </div>
       <div className="space-y-3">
         {infos.map((i) => (
@@ -563,7 +550,7 @@ function LoginForm({ onLogin }) {
     <div className="grid gap-4">
       <Input label="Username" value={user} onChange={setUser} />
       <Input label="Password" type="password" value={pass} onChange={setPass} />
-      <button onClick={() => onLogin(user, pass)} className="px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700">Login</button>
+      <button onClick={() => onLogin(user, pass)} className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-indigo-700">Login</button>
     </div>
   );
 }
