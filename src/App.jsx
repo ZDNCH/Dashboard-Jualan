@@ -40,7 +40,6 @@ function fmtCountdown(secs) {
   const h = Math.floor((secs % (24 * 3600)) / 3600);
   const m = Math.floor((secs % 3600) / 60);
   const s = Math.floor(secs % 60);
-  // perbaikan: suffix detik pakai 's', bukan 'd'
   return `${d}h ${h}j ${m}m ${s}s`;
 }
 
@@ -94,7 +93,6 @@ export default function App() {
   const [rentals, setRentals] = useState(loadLS(LS_KEYS.RENTALS, []));
   const [infos, setInfos] = useState(loadLS(LS_KEYS.INFOS, []));
 
-  // NEW: toggle sidebar untuk mobile
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // live-tick to refresh countdown
@@ -118,7 +116,6 @@ export default function App() {
       }
       return r;
     }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tick]);
 
   const totals = useMemo(() => {
@@ -203,7 +200,6 @@ export default function App() {
       </div>
 
       {/* SIDEBAR */}
-      {/* desktop: tetap terlihat; mobile: toggle sebagai drawer */}
       <aside
         className={`w-64 sm:w-72 bg-white h-full shadow-xl p-5 flex-col gap-4 z-40
         ${isSidebarOpen ? "fixed inset-y-0 left-0 flex" : "hidden sm:flex"}`}
@@ -214,29 +210,27 @@ export default function App() {
           </div>
         </div>
 
-
         <div className="mt-2 flex flex-col gap-2">
-          <SidebarLink id="dashboard" label="Dashboard" icon="☁" />
-          <SidebarLink id="countdown" label="Costumer" icon="" />
-          <SidebarLink id="finance" label="Keuangan" icon="" adminOnly />
-          <SidebarLink id="input" label="Input Data" icon="" adminOnly />
-          <SidebarLink id="info" label="Tentang" icon=""/>
-          <SidebarLink id="admin" label="Admin" icon="" adminOnly />
+          <SidebarLink id="dashboard" label="Dashboard" icon="📊" />
+          <SidebarLink id="countdown" label="Customer" icon="👥" />
+          <SidebarLink id="finance" label="Keuangan" icon="💰" adminOnly />
+          <SidebarLink id="input" label="Input Data" icon="➕" adminOnly />
+          <SidebarLink id="info" label="Tentang" icon="ℹ️"/>
+          <SidebarLink id="admin" label="Admin" icon="⚙️" adminOnly />
         </div>
 
         <div className="mt-auto">
           {isLoggedIn ? (
             <button onClick={handleLogout} className="w-full text-left px-4 py-2 rounded-xl text-gray-700 hover:bg-gray-100 flex items-center gap-3">
-              <span className="text-lg"></span>
+              <span className="text-lg">🚪</span>
               <span className="font-medium text-sm sm:text-base">Logout</span>
             </button>
           ) : (
             <button onClick={() => { setPage('login'); setIsSidebarOpen(false); }} className="w-full text-left px-4 py-2 rounded-xl text-gray-700 hover:bg-gray-100 flex items-center gap-3">
-              <span className="text-lg"></span>
+              <span className="text-lg">🔐</span>
               <span className="font-medium text-sm sm:text-base">Login</span>
             </button>
           )}
-          {/* <div className="text-[11px] sm:text-xs text-gray-400 mt-2"></div> */}
         </div>
       </aside>
 
@@ -255,7 +249,6 @@ export default function App() {
           <div className="space-y-6 max-w-[1400px] mx-auto">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
               <h1 className="text-xl sm:text-2xl font-bold text-gray-800">Dashboard</h1>
-              {/* perbaikan: tampilkan tanggal beneran */}
               <div className="text-xs sm:text-sm text-gray-500">{new Date().toLocaleString()}</div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -267,7 +260,7 @@ export default function App() {
 
             <Card>
               <div className="flex items-center justify-between mb-4">
-                <div className="text-base sm:text-lg font-semibold">Data Costumer</div>
+                <div className="text-base sm:text-lg font-semibold">Data Customer</div>
               </div>
               <div className="overflow-x-auto">
                 <table className="min-w-full text-sm">
@@ -294,7 +287,7 @@ export default function App() {
                     ))}
                     {rentals.length === 0 && (
                       <tr>
-                        <td className="py-3 text-gray-400 text-sm" colSpan={6}>Belum ada Data Costumer :c</td>
+                        <td className="py-3 text-gray-400 text-sm" colSpan={6}>Belum ada Data Customer</td>
                       </tr>
                     )}
                   </tbody>
@@ -315,14 +308,14 @@ export default function App() {
 
         {page === "countdown" && (
           <div className="space-y-4 max-w-5xl mx-auto">
-            <h1 className="text-xl sm:text-2xl font-bold">Waktu Durasi Costumer</h1>
+            <h1 className="text-xl sm:text-2xl font-bold">Waktu Durasi Customer</h1>
             <Card>
               <CountdownTable rentals={rentals} onChangeStatus={(id, s) => updateRental(id, { status: s })} isLoggedIn={isLoggedIn} />
             </Card>
           </div>
         )}
 
-        {page === "finance" && (
+        {page === "finance" && isLoggedIn && (
           <div className="space-y-4 max-w-6xl mx-auto">
             <h1 className="text-xl sm:text-2xl font-bold">Keuangan</h1>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -337,11 +330,7 @@ export default function App() {
         )}
 
         {page === "info" && (
-          <TentangAwanku 
-            isLoggedIn={isLoggedIn} 
-            katalog={infos.katalog || []} 
-            onAddProduk={(p) => setInfos((prev) => ({ ...prev, katalog: [...(prev.katalog||[]), p] }))} 
-          />
+          <TentangAwanku />
         )}
 
         {page === "admin" && isLoggedIn && (
@@ -369,24 +358,21 @@ export default function App() {
           </div>
         )}
 
-        {/* {(page === 'input' || page === 'info' || page === 'admin') && !isLoggedIn && (
+        {(page === 'input' || page === 'finance' || page === 'admin') && !isLoggedIn && (
           <div className="text-center mt-16 sm:mt-20">
             <h1 className="text-xl sm:text-2xl font-bold">Akses Ditolak</h1>
-            <p className="text-gray-600 mt-2 text-sm sm:text-base">Kamu harus login untuk mengakses halaman ini ya</p>
+            <p className="text-gray-600 mt-2 text-sm sm:text-base">Kamu harus login untuk mengakses halaman ini</p>
             <button onClick={() => setPage('login')} className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">Login</button>
           </div>
-        )} */}
+        )}
       </main>
     </div>
   );
 }
 
-// ===================== PAGES & WIDGETS =====================
+// ===================== COMPONENTS =====================
 
-// ===================== TENTANG AWANKU PAGE =====================
-function TentangAwanku({ isLoggedIn, katalog, onAddProduk }) {
-  const [newProduk, setNewProduk] = useState({ nama: "", harga: "" });
-
+function TentangAwanku() {
   return (
     <div className="space-y-6 max-w-[1400px] mx-auto">
       <h1 className="text-xl sm:text-2xl font-bold text-gray-800">Tentang Awanku</h1>
@@ -453,8 +439,6 @@ function TentangAwanku({ isLoggedIn, katalog, onAddProduk }) {
   );
 }
 
-// ===================== RENTAL PAGE =====================
-
 function RentalForm({ onSubmit }) {
   const [nama, setNama] = useState("");
   const [jenis, setJenis] = useState("");
@@ -462,8 +446,6 @@ function RentalForm({ onSubmit }) {
   const [durasiDays, setDurasiDays] = useState(7);
   const [harga, setHarga] = useState("");
   const [metode, setMetode] = useState("Tunai");
-   const [tanggalMulai, setTanggalMulai] = useState("");
-  const [tanggalAkhir, setTanggalAkhir] = useState("");
 
   function submit(e) {
     e.preventDefault();
@@ -484,25 +466,20 @@ function RentalForm({ onSubmit }) {
         <Input label="Harga Sewa" value={harga} onChange={setHarga} type="number" min="0" />
         <SelectSimple label="Metode" value={metode} onChange={setMetode} options={["Tunai","Transfer"]} />
       </div>
-      {/* Tambahan tanggal opsional */}
-  <div className="grid md:grid-cols-2 gap-4">
-    <Input label="Tanggal Mulai (opsional)" value={tanggalMulai} onChange={setTanggalMulai} type="date" />
-    <Input label="Tanggal Akhir (opsional)" value={tanggalAkhir} onChange={setTanggalAkhir} type="date" />
-  </div>
-       <div className="flex gap-3 flex-wrap">
-    <button className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">Simpan</button>
-    <button
-      type="reset"
-      onClick={() => {
-        setNama(""); setJenis(""); setGmail(""); setDurasiDays(7);
-        setHarga(""); setMetode("Tunai"); setTanggalMulai(""); setTanggalAkhir("");
-      }}
-      className="px-4 py-2 bg-gray-100 rounded-xl hover:bg-gray-200"
-    >
-      Reset
-    </button>
-  </div>
-</form>
+      <div className="flex gap-3 flex-wrap">
+        <button className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">Simpan</button>
+        <button
+          type="reset"
+          onClick={() => {
+            setNama(""); setJenis(""); setGmail(""); setDurasiDays(7);
+            setHarga(""); setMetode("Tunai");
+          }}
+          className="px-4 py-2 bg-gray-100 rounded-xl hover:bg-gray-200"
+        >
+          Reset
+        </button>
+      </div>
+    </form>
   );
 }
 
@@ -591,40 +568,6 @@ function TransactionsTable({ rentals }) {
   );
 }
 
-function InfoBoard({ infos, onPost, onReply }) {
-  const [text, setText] = useState("");
-  const [reply, setReply] = useState({});
-  return (
-    <div className="space-y-4">
-      <div className="flex gap-2 flex-col sm:flex-row">
-        <input className="flex-1 border rounded-xl px-3 py-2 text-sm" placeholder="Tulis info untuk user..." value={text} onChange={(e)=>setText(e.target.value)} />
-        <button onClick={()=>{ onPost(text); setText(""); }} className="px-4 py-2 bg-blue-600 text-white rounded-xl">Kirim</button>
-      </div>
-      <div className="space-y-3">
-        {infos.map((i) => (
-          <div key={i.id} className="bg-white rounded-2xl p-4 shadow-sm">
-            <div className="text-[11px] sm:text-xs text-gray-400">{i.date}</div>
-            <div className="mt-1 text-sm sm:text-base">{i.text}</div>
-            <div className="mt-3 space-y-2">
-              {i.chats.map((c) => (
-                <div key={c.id} className="relative pl-6">
-                  <span className="absolute left-0 top-1">➤</span>
-                  <div className="inline-block bg-gray-100 px-3 py-1 rounded-xl text-sm">{c.text}</div>
-                </div>
-              ))}
-              <div className="flex gap-2 flex-col sm:flex-row">
-                <input className="flex-1 border rounded-xl px-3 py-2 text-sm" placeholder="Balas (Anonim)" value={reply[i.id] || ""} onChange={(e)=>setReply({ ...reply, [i.id]: e.target.value })} />
-                <button className="px-3 py-2 bg-gray-800 text-white rounded-xl" onClick={()=>{ onReply(i.id, reply[i.id]); setReply({ ...reply, [i.id]: "" }); }}>Balas</button>
-              </div>
-            </div>
-          </div>
-        ))}
-        {infos.length === 0 && <div className="text-gray-400 text-sm">Belum ada info.</div>}
-      </div>
-    </div>
-  );
-}
-
 function LoginForm({ onLogin }) {
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
@@ -683,7 +626,7 @@ function AdminManager({ rentals, onUpdate, onDelete }) {
   );
 }
 
-// ===================== SMALL INPUTS =====================
+// ===================== INPUT COMPONENTS =====================
 function Input({ label, value, onChange, type = "text", ...rest }) {
   return (
     <label className="block">
